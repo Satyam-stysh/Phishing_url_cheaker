@@ -8,11 +8,11 @@ import pandas as pd
 import requests
 import streamlit as st
 
-BACKEND_HOSTPORT = os.getenv(
-    "BACKEND_HOSTPORT",
+BACKEND_URL = os.getenv(
+    "BACKEND_URL",
     "https://phishguard-api-xxxx.onrender.com",
 ).rstrip("/")
-PREDICT_URL = f"{BACKEND_HOSTPORT}/predict"
+assert BACKEND_URL.startswith("http")
 
 st.set_page_config(page_title="PhishGuard AI", page_icon="🔐", layout="wide")
 
@@ -324,7 +324,7 @@ if scan:
         with st.spinner("Scanning URL and generating SHAP explanation..."):
             try:
                 response = requests.post(
-                    PREDICT_URL, json={"url": url.strip()}, timeout=30
+                    f"{BACKEND_URL}/predict", json={"url": url.strip()}, timeout=30
                 )
                 response.raise_for_status()
                 payload: dict[str, Any] = response.json()
