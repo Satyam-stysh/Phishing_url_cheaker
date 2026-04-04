@@ -8,12 +8,11 @@ import pandas as pd
 import requests
 import streamlit as st
 
-backend_hostport = os.getenv("BACKEND_HOSTPORT")
-BACKEND_URL = os.getenv(
-    "BACKEND_URL",
-    f"http://{backend_hostport}" if backend_hostport else "http://127.0.0.1:8000",
-)
-PREDICT_URL = f"{BACKEND_URL}/predict"
+BACKEND_HOSTPORT = os.getenv(
+    "BACKEND_HOSTPORT",
+    "https://phishguard-api-xxxx.onrender.com",
+).rstrip("/")
+PREDICT_URL = f"{BACKEND_HOSTPORT}/predict"
 
 st.set_page_config(page_title="PhishGuard AI", page_icon="🔐", layout="wide")
 
