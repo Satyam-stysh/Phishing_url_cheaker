@@ -8,11 +8,29 @@ import pandas as pd
 import requests
 import streamlit as st
 
-BACKEND_URL = os.getenv(
-    "BACKEND_URL",
-    "https://phishguard-api-xxxx.onrender.com",
-).rstrip("/")
-assert BACKEND_URL.startswith("http")
+DEFAULT_RENDER_BACKEND_URL = "https://phishguard-api-xxxx.onrender.com"
+
+
+def get_backend_url() -> str:
+    configured_url = os.getenv("BACKEND_URL", DEFAULT_RENDER_BACKEND_URL).strip()
+    is_render = bool(os.getenv("RENDER"))
+
+    # Use the local API during development when no real public backend URL is configured.
+    if not configured_url or "xxxx" in configured_url:
+        if is_render:
+            raise RuntimeError(
+                "BACKEND_URL is not configured with the real public Render backend URL."
+            )
+        configured_url = "http://127.0.0.1:8000"
+
+    configured_url = configured_url.rstrip("/")
+    if not configured_url.startswith("http"):
+        raise RuntimeError("BACKEND_URL must start with http:// or https://")
+
+    return configured_url
+
+
+BACKEND_URL = get_backend_url()
 
 st.set_page_config(page_title="PhishGuard AI", page_icon="🔐", layout="wide")
 
