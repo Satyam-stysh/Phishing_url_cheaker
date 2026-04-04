@@ -1,0 +1,11 @@
+# Exact trusted domains
+iitm.ac.in
+
+# Institutional and public-sector wildcard patterns
+*.iitm.ac.in
+*.ac.in
+*.edu
+*.edu.*
+*.gov
+*.gov.*
+*.gov.in

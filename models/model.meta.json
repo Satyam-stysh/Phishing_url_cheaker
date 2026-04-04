@@ -1,0 +1,5 @@
+{
+  "threshold": 0.35,
+  "data_path": "UCI dataset id=967",
+  "phishing_label": "0"
+}
