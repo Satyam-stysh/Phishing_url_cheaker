@@ -9,18 +9,28 @@ Production-style full-stack system:
 ## Project Structure
 
 ```text
-phishing-detector/
+phishguard-ai/
 ├── data/
+│   ├── trusted_domains.txt
+│   └── urls.csv
 ├── models/
-│   └── model.json
+│   ├── model.json
+│   └── model.meta.json
 ├── backend/
+│   ├── __init__.py
 │   └── api.py
 ├── frontend/
 │   └── app.py
-├── feature_extraction.py
-├── train.py
-├── predict.py
+├── scripts/
+│   └── download_phiusiil.py
+├── decision_utils.py
 ├── explain.py
+├── feature_extraction.py
+├── model_utils.py
+├── predict.py
+├── train.py
+├── trust_layer.py
+├── render.yaml
 ├── requirements.txt
 └── README.md
 ```
