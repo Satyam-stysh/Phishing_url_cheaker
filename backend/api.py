@@ -58,6 +58,16 @@ class PredictResponse(BaseModel):
     shap_plot_base64: str
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "message": "PhishGuard API is running",
+        "health": "/health",
+        "predict": "/predict",
+        "docs": "/docs",
+    }
+
+
 def get_model_version() -> int:
     return MODEL_PATH.stat().st_mtime_ns
 
