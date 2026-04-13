@@ -144,7 +144,7 @@ How to deploy:
 4. Render will detect `render.yaml` and propose both services.
 5. Approve the blueprint and deploy.
 
-The frontend automatically connects to the backend using Render's internal service network through the `BACKEND_HOSTPORT` environment variable.
+The frontend automatically connects to the backend over Render's private network using the `BACKEND_HOSTPORT` environment variable defined in the blueprint. For local development, the frontend falls back to `http://127.0.0.1:8000` unless you set `BACKEND_URL` yourself.
 
 ## SHAP Utilities
 

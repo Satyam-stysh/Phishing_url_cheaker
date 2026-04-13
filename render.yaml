@@ -19,5 +19,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.3
-      - key: BACKEND_URL
-        value: https://phishguard-api-xxxx.onrender.com
+      - key: BACKEND_HOSTPORT
+        fromService:
+          type: web
+          name: phishguard-api
+          property: hostport

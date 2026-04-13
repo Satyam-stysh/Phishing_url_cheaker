@@ -8,26 +8,25 @@ import pandas as pd
 import requests
 import streamlit as st
 
-DEFAULT_RENDER_BACKEND_URL = "https://phishguard-api-xxxx.onrender.com"
-
 
 def get_backend_url() -> str:
-    configured_url = os.getenv("BACKEND_URL", DEFAULT_RENDER_BACKEND_URL).strip()
-    is_render = bool(os.getenv("RENDER"))
+    configured_url = os.getenv("BACKEND_URL", "").strip()
+    backend_hostport = os.getenv("BACKEND_HOSTPORT", "").strip()
 
-    # Use the local API during development when no real public backend URL is configured.
-    if not configured_url or "xxxx" in configured_url:
-        if is_render:
-            raise RuntimeError(
-                "BACKEND_URL is not configured with the real public Render backend URL."
-            )
-        configured_url = "http://127.0.0.1:8000"
+    if configured_url:
+        configured_url = configured_url.rstrip("/")
+        if not configured_url.startswith(("http://", "https://")):
+            raise RuntimeError("BACKEND_URL must start with http:// or https://")
+        return configured_url
 
-    configured_url = configured_url.rstrip("/")
-    if not configured_url.startswith("http"):
-        raise RuntimeError("BACKEND_URL must start with http:// or https://")
+    if backend_hostport:
+        return f"http://{backend_hostport.rstrip('/')}"
 
-    return configured_url
+    # Use the local API during development when no backend service is configured.
+    if not os.getenv("RENDER"):
+        return "http://127.0.0.1:8000"
+
+    raise RuntimeError("Configure BACKEND_HOSTPORT or BACKEND_URL for the frontend service.")
 
 
 BACKEND_URL = get_backend_url()
